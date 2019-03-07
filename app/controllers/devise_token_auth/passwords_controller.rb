@@ -66,8 +66,7 @@ module DeviseTokenAuth
       # make sure user is authorized
       return render_update_error_unauthorized unless @resource
 
-      # make sure account doesn't use oauth2 provider
-      unless @resource.provider == 'email'
+      unless @resource.provider == provider
         return render_update_error_password_not_required
       end
 
@@ -88,6 +87,10 @@ module DeviseTokenAuth
     end
 
     protected
+    
+    def provider
+      'email'
+    end
 
     def resource_update_method
       allow_password_change = recoverable_enabled? && @resource.allow_password_change == true
